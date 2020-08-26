@@ -1,23 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace Logging
 {
 	public class FileSystemLogger : ILogger
 	{
+		private readonly IFileSystem fileSystem;
 		private readonly string logFilePath;
 		private readonly string datetimeFormat;
 
-		public FileSystemLogger(string logFileDirectory, string logFileName, string datetimeFormat = "MM-dd-yyyy HH:mm:ss.fff tt")
+		public FileSystemLogger(IFileSystem fileSystem, string logDirectoryPath, string logFileName, string datetimeFormat = "MM-dd-yyyy HH:mm:ss.fff tt")
 		{
-			if (!Directory.Exists(logFileDirectory))
-			{
-				throw new ArgumentException("Specified log file directory does not exist.");
-			}
+			if (fileSystem == null)
+				throw new ArgumentException("FileSystem implementation must be provided.");
 
-			logFilePath = Path.Combine(logFileDirectory, logFileName);
+			this.fileSystem = fileSystem;
+
+			if (!fileSystem.DirectoryExists(logDirectoryPath))
+				throw new ArgumentException("Specified log file directory does not exist.");
+			
+
+			logFilePath = fileSystem.CombineDirectoryPathAndFileName(logDirectoryPath, logFileName);
 			this.datetimeFormat = datetimeFormat;
 
 		}
@@ -51,10 +55,7 @@ namespace Logging
 
 			try
 			{
-				using (StreamWriter writer = new StreamWriter(logFilePath, true))
-				{
-					writer.WriteLine(formattedMessage);
-				}
+				fileSystem.WriteToFile(logFilePath, formattedMessage, true);
 			}
 			catch(Exception ex)
 			{
