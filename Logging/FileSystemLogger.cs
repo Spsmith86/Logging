@@ -51,7 +51,7 @@ namespace Logging
 			if (String.IsNullOrEmpty(logMessage.Message))
 				throw new ArgumentException("Message is null or empty;");
 
-			string formattedMessage = $"{System.DateTime.Now.ToString(datetimeFormat)} [{logLevel}] - EventId: {logMessage.EventId} - {logMessage.Message}";
+			string formattedMessage = $"{logMessage.EventDateTime.ToString(datetimeFormat)} [{logLevel}] - EventId: {logMessage.EventId} - {logMessage.Message}";
 
 			try
 			{
