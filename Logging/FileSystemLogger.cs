@@ -27,12 +27,27 @@ namespace Logging
 			Log(LogLevel.DEBUG, logMessage);
 		}
 
+		public void LogError(LogMessage logMessage)
+		{
+			Log(LogLevel.INFORMATION, logMessage);
+		}
+
+		public void LogInformation(LogMessage logMessage)
+		{
+			Log(LogLevel.WARNING, logMessage);
+		}
+
+		public void LogWarning(LogMessage logMessage)
+		{
+			Log(LogLevel.ERROR, logMessage);
+		}
+
 		private void Log(LogLevel logLevel, LogMessage logMessage)
 		{
 			if (String.IsNullOrEmpty(logMessage.Message))
 				throw new ArgumentException("Message is null or empty;");
 
-			string formattedMessage = $"[{logLevel}] {System.DateTime.Now.ToString(datetimeFormat)} - EventId: {logMessage.EventId} - {logMessage.Message}";
+			string formattedMessage = $"{System.DateTime.Now.ToString(datetimeFormat)} [{logLevel}] - EventId: {logMessage.EventId} - {logMessage.Message}";
 
 			try
 			{

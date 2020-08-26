@@ -13,6 +13,9 @@ namespace LoggingTestConsole
 			ILogger logger = new FileSystemLogger(directory, filename);
 			LogMessage logMessage = new LogMessage("Test message 1.");
 			logger.LogDebug(logMessage);
+			logger.LogInformation(logMessage);
+			logger.LogWarning(logMessage);
+			logger.LogError(logMessage);
 		}
 	}
 }
