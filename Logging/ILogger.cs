@@ -4,6 +4,6 @@ namespace Logging
 {
 	public interface ILogger
 	{
-		public void LogDebug(string message);
+		public void LogDebug(LogMessage message);
 	}
 }
