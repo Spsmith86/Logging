@@ -9,9 +9,11 @@ namespace Logging
 		public readonly string Message;
 		public readonly Guid EventId;
 		public readonly DateTime EventDateTime;
+		public readonly LogLevel LogLevel;
 
-		public LogMessage(string message, DateTime? eventDateTime = null, Guid eventId = new Guid())
+		public LogMessage(LogLevel logLevel, string message, DateTime? eventDateTime = null, Guid eventId = new Guid())
 		{
+			this.LogLevel = logLevel;
 			this.Message = message;
 
 			if (!eventDateTime.HasValue)
